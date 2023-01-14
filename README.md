@@ -1,5 +1,5 @@
 # install_package
-This is a sample ansible role to restart a service. It requires the following variables:
+This is a sample ansible role to install a package. It requires the following variables:
 
 | var_name | required | description            |
 |----------|----------|------------------------|

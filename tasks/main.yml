@@ -1,0 +1,23 @@
+---
+- name: "Install {{ install_packages }} on {{ ansible_host }}"
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ install_packages }}"
+
+- name: "Check if listed package is installed or not on Debian Linux family"
+  command: dpkg-query -l "{{ item }}"
+  with_items: "{{ install_packages }}"
+  register: package_check
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: "Check if listed package is installed or not on Red Hat Linux family"
+  command: rpm -q "{{ item }}"
+  with_items: "{{ install_packages }}"
+  register: package_check
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: "Print execution results"
+  debug:
+    msg: "Packages have been installed"
+  when: package_check is succeeded
